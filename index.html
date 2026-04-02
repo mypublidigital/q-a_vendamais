@@ -3,202 +3,180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Questionário Técnico – Leadrix</title>
+    <title>Leadrix – Questionário Técnico</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
         
+        :root {
+            --leadrix-bg: #000000;
+            --leadrix-card: #0a0a0a;
+            --leadrix-border: #1a1a1a;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #000000;
+            background-color: var(--leadrix-bg);
             color: #ffffff;
-            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
         }
 
-        .glass-card {
-            background: rgba(15, 15, 15, 0.95);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .step-content {
-            display: none;
-        }
-
-        .step-content.active {
-            display: block;
-            animation: fadeIn 0.4s ease-out;
-        }
+        .step-content { display: none; }
+        .step-content.active { display: block; animation: fadeIn 0.5s ease; }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .option-card {
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
+            transition: all 0.2s ease;
+            border: 1px solid var(--leadrix-border);
             background: rgba(255, 255, 255, 0.02);
+            position: relative;
         }
 
         .option-card:hover {
-            border-color: rgba(255, 255, 255, 0.3);
-            background-color: rgba(255, 255, 255, 0.05);
+            border-color: #333;
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        input[type="radio"]:checked + .option-card,
-        input[type="checkbox"]:checked + .option-card {
+        input:checked + .option-card {
             background-color: #ffffff !important;
             border-color: #ffffff !important;
             color: #000000 !important;
         }
 
-        input[type="radio"]:checked + .option-card::after,
-        input[type="checkbox"]:checked + .option-card::after {
+        input:checked + .option-card::after {
             content: "✓";
             position: absolute;
-            top: 10px;
-            right: 14px;
+            top: 12px;
+            right: 16px;
             font-weight: bold;
         }
 
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #000; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-        
-        .modal-overlay {
-            background: rgba(0, 0, 0, 0.98);
-            backdrop-filter: blur(10px);
-        }
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-track { background: #000; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #222; border-radius: 10px; }
     </style>
 </head>
-<body class="min-h-screen flex flex-col items-center py-12 px-4 custom-scrollbar">
+<body class="min-h-screen flex flex-col items-center py-12 px-6 overflow-x-hidden custom-scroll">
 
-    <!-- Acesso Admin - Botão Discreto -->
-    <div class="fixed top-4 right-4 z-[100]">
-        <button type="button" id="toggleAdmin" class="text-[9px] text-zinc-800 hover:text-zinc-500 transition-colors uppercase tracking-[0.3em] px-4 py-2 border border-zinc-900 rounded-full">
-            Acesso Restrito
+    <!-- Botão Admin (Fixo e Isolado) -->
+    <div class="fixed top-6 right-6 z-[100]">
+        <button id="adminBtn" type="button" class="text-[10px] text-zinc-700 hover:text-zinc-400 uppercase tracking-[0.3em] transition-all px-4 py-2 border border-zinc-900 rounded-full bg-black">
+            Acesso Interno
         </button>
     </div>
 
-    <!-- Header Principal -->
-    <header id="main-header" class="mb-12 text-center transition-opacity duration-300">
-        <img src="LOGO_LEADRIX_Negativado_COR_RGB.png" alt="Leadrix" class="h-16 mx-auto mb-6" onerror="this.src='https://via.placeholder.com/200x60/000000/FFFFFF?text=LEADRIX'">
-        <h1 class="text-lg font-light tracking-[0.4em] text-zinc-400 uppercase">Questionário Técnico</h1>
-        <p class="text-[10px] text-zinc-600 mt-2 tracking-[0.2em] uppercase">Plataforma Role Play + Copiloto AI</p>
+    <!-- Header (Logo Estável) -->
+    <header id="header-area" class="w-full max-w-2xl text-center mb-16">
+        <div class="h-16 flex items-center justify-center mb-6 overflow-hidden">
+            <img src="LOGO_LEADRIX_Negativado_COR_RGB.png" alt="Leadrix" class="h-full w-auto object-contain" onerror="this.style.display='none'">
+        </div>
+        <h1 class="text-xs font-bold tracking-[0.5em] text-zinc-500 uppercase">Questionário Técnico</h1>
+        <p class="text-[10px] text-zinc-700 mt-2 uppercase tracking-widest">Plataforma Role Play + Copiloto</p>
     </header>
 
-    <!-- Barra de Progresso -->
-    <div id="progress-container" class="w-full max-w-2xl mb-10 transition-opacity duration-300">
-        <div class="h-[2px] w-full bg-zinc-900 rounded-full overflow-hidden">
+    <!-- Progresso -->
+    <div id="progress-area" class="w-full max-w-2xl mb-12">
+        <div class="h-[1px] w-full bg-zinc-900 overflow-hidden">
             <div id="progress-bar" class="h-full bg-white transition-all duration-700" style="width: 0%;"></div>
         </div>
-        <div class="flex justify-between mt-3 text-[9px] uppercase tracking-[0.2em] text-zinc-500">
-            <span id="step-indicator">A carregar...</span>
-            <span id="percentage-indicator">0%</span>
+        <div class="flex justify-between mt-4 text-[9px] uppercase tracking-widest text-zinc-600">
+            <span id="step-txt">Passo 1</span>
+            <span id="percent-txt">0%</span>
         </div>
     </div>
 
-    <!-- Contentor do Formulário -->
-    <main id="form-container" class="w-full max-w-2xl glass-card rounded-3xl p-8 md:p-12 shadow-2xl mb-12">
-        <form id="tech-form" onsubmit="return false;">
+    <!-- Container do Formulário -->
+    <main id="main-content" class="w-full max-w-2xl bg-[#050505] border border-zinc-900 rounded-3xl p-8 md:p-12 shadow-2xl transition-all">
+        <form id="quest-form">
             
             <!-- Etapa 1: Identificação -->
             <div class="step-content active" data-step="1">
-                <h2 class="text-2xl font-bold mb-2">Identificação</h2>
-                <p class="text-sm text-zinc-500 mb-8 font-light">Inicie o levantamento informando o nome do projeto ou empresa.</p>
+                <h2 class="text-2xl font-semibold mb-2">Identificação</h2>
+                <p class="text-sm text-zinc-500 mb-10">Para qual cliente ou projeto estamos a configurar?</p>
                 <div class="space-y-6">
-                    <div>
-                        <label class="text-[10px] text-zinc-500 uppercase tracking-widest mb-3 block">Nome da Empresa</label>
-                        <input type="text" name="identificacao" required class="w-full bg-zinc-900/50 border border-zinc-800 rounded-2xl p-5 focus:outline-none focus:border-white transition-all text-white placeholder-zinc-700" placeholder="Ex: Leadrix Global">
-                    </div>
+                    <input type="text" name="empresa" required placeholder="Nome da Empresa" class="w-full bg-transparent border-b border-zinc-800 p-4 focus:outline-none focus:border-white transition-all text-xl text-white">
                 </div>
             </div>
 
             <!-- Etapa 2: Método -->
             <div class="step-content" data-step="2">
-                <h2 class="text-2xl font-bold mb-2">1. Estrutura do Método</h2>
-                <p class="text-sm text-zinc-500 mb-8 font-light">Como as vendas são estruturadas no cliente?</p>
-                <div class="space-y-4">
-                    <label class="block cursor-pointer">
-                        <input type="radio" name="metodo_tipo" value="Totalmente Customizado" class="hidden">
-                        <div class="option-card p-5 rounded-2xl text-sm">Totalmente customizado por cliente</div>
+                <h2 class="text-2xl font-semibold mb-2">1. Método de Vendas</h2>
+                <p class="text-sm text-zinc-500 mb-8">Definição do fluxo de trabalho.</p>
+                <div class="grid grid-cols-1 gap-3">
+                    <label class="cursor-pointer">
+                        <input type="radio" name="metodo_tipo" value="Customizado" class="hidden">
+                        <div class="option-card p-6 rounded-2xl text-sm">Totalmente customizado por cliente</div>
                     </label>
-                    <label class="block cursor-pointer">
+                    <label class="cursor-pointer">
                         <input type="radio" name="metodo_tipo" value="Template" class="hidden">
-                        <div class="option-card p-5 rounded-2xl text-sm">Baseado em template com ajustes</div>
+                        <div class="option-card p-6 rounded-2xl text-sm">Baseado em template com ajustes</div>
                     </label>
-                    <div class="pt-6">
-                        <label class="text-[10px] text-zinc-500 uppercase tracking-widest mb-3 block">Etapas de venda em média</label>
-                        <input type="number" name="etapas_venda" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-4 focus:outline-none focus:border-white" placeholder="Ex: 5">
+                    <div class="mt-6">
+                        <p class="text-[10px] text-zinc-600 uppercase mb-3">Etapas de venda em média</p>
+                        <input type="number" name="etapas_count" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-4 focus:border-white outline-none">
                     </div>
                 </div>
             </div>
 
-            <!-- Etapa 3: Base de Conhecimento -->
+            <!-- Etapa 3: Base -->
             <div class="step-content" data-step="3">
-                <h2 class="text-2xl font-bold mb-2">2. Base de Conhecimento</h2>
-                <p class="text-sm text-zinc-500 mb-8 font-light">Driver principal de consumo de tokens LLM.</p>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <h2 class="text-2xl font-semibold mb-2">2. Base de Conhecimento</h2>
+                <p class="text-sm text-zinc-500 mb-8"> Driver de custo de processamento (LLM).</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <label class="cursor-pointer">
-                        <input type="radio" name="base_tipo" value="Textos" class="hidden">
+                        <input type="radio" name="base_origem" value="Texto" class="hidden">
                         <div class="option-card p-5 rounded-2xl text-xs text-center h-full flex items-center justify-center">Textos estruturados</div>
                     </label>
                     <label class="cursor-pointer">
-                        <input type="radio" name="base_tipo" value="Documentos" class="hidden">
+                        <input type="radio" name="base_origem" value="Docs" class="hidden">
                         <div class="option-card p-5 rounded-2xl text-xs text-center h-full flex items-center justify-center">Documentos (PDF, PPT)</div>
                     </label>
                     <label class="cursor-pointer">
-                        <input type="radio" name="base_tipo" value="Ambos" class="hidden">
+                        <input type="radio" name="base_origem" value="Ambos" class="hidden">
                         <div class="option-card p-5 rounded-2xl text-xs text-center h-full flex items-center justify-center">Ambos</div>
                     </label>
                 </div>
-                <div class="space-y-4">
-                    <p class="text-[10px] text-zinc-500 uppercase tracking-widest mb-2">Extensão média dos Playbooks</p>
-                    <div class="grid grid-cols-3 gap-4">
-                        <label class="cursor-pointer"><input type="radio" name="doc_tam" value="Curto" class="hidden"><div class="option-card p-3 rounded-xl text-[10px] text-center">CURTOS</div></label>
-                        <label class="cursor-pointer"><input type="radio" name="doc_tam" value="Médio" class="hidden"><div class="option-card p-3 rounded-xl text-[10px] text-center">MÉDIOS</div></label>
-                        <label class="cursor-pointer"><input type="radio" name="doc_tam" value="Longo" class="hidden"><div class="option-card p-3 rounded-xl text-[10px] text-center">LONGOS</div></label>
-                    </div>
+                <div class="mt-8 grid grid-cols-3 gap-3">
+                    <label class="cursor-pointer"><input type="radio" name="docs_tam" value="Curto" class="hidden"><div class="option-card p-4 rounded-xl text-[10px] text-center uppercase tracking-tighter">Curtos</div></label>
+                    <label class="cursor-pointer"><input type="radio" name="docs_tam" value="Médio" class="hidden"><div class="option-card p-4 rounded-xl text-[10px] text-center uppercase tracking-tighter">Médios</div></label>
+                    <label class="cursor-pointer"><input type="radio" name="docs_tam" value="Longo" class="hidden"><div class="option-card p-4 rounded-xl text-[10px] text-center uppercase tracking-tighter">Longos</div></label>
                 </div>
             </div>
 
             <!-- Etapa 4: Role Play -->
             <div class="step-content" data-step="4">
-                <h2 class="text-2xl font-bold mb-2">3. Role Play</h2>
-                <p class="text-sm text-zinc-500 mb-8 font-light">Complexidade técnica da simulação.</p>
+                <h2 class="text-2xl font-semibold mb-6">3. Role Play</h2>
                 <div class="space-y-3">
                     <label class="block cursor-pointer">
-                        <input type="checkbox" name="rp_features" value="Audio" class="hidden">
-                        <div class="option-card p-5 rounded-2xl text-sm">Simulação com Áudio/Voz</div>
+                        <input type="checkbox" name="rp_voz" value="Voz" class="hidden">
+                        <div class="option-card p-5 rounded-2xl text-sm">Treino com Voz/Áudio</div>
                     </label>
                     <label class="block cursor-pointer">
-                        <input type="checkbox" name="rp_features" value="Realtime" class="hidden">
+                        <input type="checkbox" name="rp_realtime" value="Realtime" class="hidden">
                         <div class="option-card p-5 rounded-2xl text-sm">Avaliação em Tempo Real</div>
-                    </label>
-                    <label class="block cursor-pointer">
-                        <input type="checkbox" name="rp_features" value="Dinamico" class="hidden">
-                        <div class="option-card p-5 rounded-2xl text-sm">Cenários Gerados Dinamicamente</div>
                     </label>
                 </div>
             </div>
 
             <!-- Etapa 5: Copiloto -->
             <div class="step-content" data-step="5">
-                <h2 class="text-2xl font-bold mb-6">4. Copiloto AI</h2>
-                <div class="space-y-4">
+                <h2 class="text-2xl font-semibold mb-6">4. Copiloto AI</h2>
+                <div class="space-y-3">
                     <label class="block cursor-pointer">
-                        <input type="radio" name="cop_uso" value="Demanda" class="hidden">
-                        <div class="option-card p-5 rounded-2xl text-sm">Apenas Sob Demanda (Q&A)</div>
+                        <input type="radio" name="cop_modo" value="Demanda" class="hidden">
+                        <div class="option-card p-5 rounded-2xl text-sm">Apenas Sob Demanda (Chat)</div>
                     </label>
                     <label class="block cursor-pointer">
-                        <input type="radio" name="cop_uso" value="Proativo" class="hidden">
+                        <input type="radio" name="cop_modo" value="Proativo" class="hidden">
                         <div class="option-card p-5 rounded-2xl text-sm">Sugestões Proativas (Push)</div>
                     </label>
-                    <div class="mt-6 p-5 border border-zinc-800 rounded-2xl flex items-center justify-between">
-                        <span class="text-sm text-zinc-400">Dados via integração CRM?</span>
+                    <div class="mt-4 p-5 border border-zinc-900 rounded-2xl flex items-center justify-between">
+                        <span class="text-sm text-zinc-500">Integrar com CRM?</span>
                         <input type="checkbox" name="cop_crm" class="w-6 h-6 accent-white">
                     </div>
                 </div>
@@ -206,100 +184,86 @@
 
             <!-- Etapa 6: Volume -->
             <div class="step-content" data-step="6">
-                <h2 class="text-2xl font-bold mb-6">5. Volume Operacional</h2>
-                <div class="grid grid-cols-2 gap-4 mb-8">
+                <h2 class="text-2xl font-semibold mb-10">5. Volume Operacional</h2>
+                <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="text-[10px] text-zinc-500 uppercase mb-3 block">Clientes Ativos</label>
-                        <input type="number" name="vol_cli" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-4 focus:border-white outline-none">
+                        <p class="text-[10px] text-zinc-600 uppercase mb-2">Clientes Ativos</p>
+                        <input type="number" name="vol_cli" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-4 outline-none">
                     </div>
                     <div>
-                        <label class="text-[10px] text-zinc-500 uppercase mb-3 block">Users / Cliente</label>
-                        <input type="number" name="vol_usr" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-4 focus:border-white outline-none">
+                        <p class="text-[10px] text-zinc-600 uppercase mb-2">Users / Cli</p>
+                        <input type="number" name="vol_usr" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-4 outline-none">
                     </div>
-                </div>
-                <div class="space-y-3">
-                    <p class="text-[10px] text-zinc-500 uppercase tracking-widest mb-2">Funcionalidades do Dashboard</p>
-                    <label class="block cursor-pointer">
-                        <input type="checkbox" name="dash_ia" value="Sim" class="hidden">
-                        <div class="option-card p-5 rounded-2xl text-sm">Análise Qualitativa Automatizada por IA</div>
-                    </label>
                 </div>
             </div>
 
             <!-- Etapa 7: Final -->
             <div class="step-content" data-step="7">
-                <h2 class="text-2xl font-bold mb-2">Observações Finais</h2>
-                <p class="text-sm text-zinc-500 mb-8 font-light">Existem outros requisitos críticos para o sistema?</p>
-                <textarea name="notas" rows="6" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-5 focus:outline-none focus:border-white text-white resize-none custom-scrollbar" placeholder="Descreva aqui funcionalidades específicas..."></textarea>
+                <h2 class="text-2xl font-semibold mb-6">Extras e Notas</h2>
+                <textarea name="notas" rows="6" placeholder="Algum detalhe adicional sobre a arquitetura?" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-5 focus:border-white outline-none text-white text-sm resize-none custom-scroll"></textarea>
             </div>
 
-            <!-- Navegação de Etapas -->
+            <!-- Navegação -->
             <div class="flex justify-between mt-12 gap-4">
-                <button type="button" id="prevBtn" class="flex-1 py-5 rounded-2xl border border-zinc-800 text-zinc-500 hover:text-white transition-all invisible">Anterior</button>
+                <button type="button" id="prevBtn" class="flex-1 py-5 rounded-2xl border border-zinc-900 text-zinc-600 hover:text-white transition-all invisible">Anterior</button>
                 <button type="button" id="nextBtn" class="flex-[2] py-5 rounded-2xl bg-white text-black font-bold hover:bg-zinc-200 transition-all">Seguinte</button>
-                <button type="button" id="submitBtn" class="flex-[2] py-5 rounded-2xl bg-white text-black font-black hover:bg-zinc-200 transition-all hidden uppercase tracking-widest">Enviar Dados</button>
+                <button id="submitBtn" type="button" class="flex-[2] py-5 rounded-2xl bg-white text-black font-black hover:bg-zinc-200 transition-all hidden uppercase tracking-widest">Enviar Dados</button>
             </div>
 
         </form>
     </main>
 
-    <!-- MODAL DE AUTENTICAÇÃO ADMIN -->
-    <div id="admin-login-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center p-6 modal-overlay">
-        <div class="w-full max-w-sm glass-card rounded-3xl p-10 border border-zinc-800 shadow-2xl">
-            <h2 class="text-xl font-bold mb-1 text-center">Painel Restrito</h2>
-            <p class="text-[9px] text-zinc-600 text-center uppercase tracking-[0.3em] mb-10">Credenciais Leadrix</p>
-            <div class="space-y-4">
-                <input type="password" id="admin-pass-field" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-5 focus:outline-none focus:border-white text-white text-center tracking-widest" placeholder="SENHA">
-                <div class="flex gap-4 pt-4">
-                    <button id="cancel-admin-btn" type="button" class="flex-1 py-4 text-[10px] text-zinc-600 hover:text-white uppercase tracking-widest">Sair</button>
-                    <button id="auth-admin-btn" type="button" class="flex-1 py-4 bg-white text-black font-bold rounded-2xl hover:bg-zinc-200 uppercase text-[10px] tracking-widest">Entrar</button>
-                </div>
+    <!-- MODAL ADMIN LOGIN (Isolado e com Z-Index Máximo) -->
+    <div id="admin-login" class="hidden fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/95 backdrop-blur-xl">
+        <div class="w-full max-w-xs bg-[#0a0a0a] border border-zinc-900 rounded-3xl p-10 shadow-2xl">
+            <h2 class="text-xl font-bold mb-1 text-center">Autenticação</h2>
+            <p class="text-[9px] text-zinc-600 text-center uppercase tracking-[0.3em] mb-10">Interno Leadrix</p>
+            <input type="password" id="admin-pass" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-5 focus:border-white outline-none text-white text-center tracking-widest mb-6" placeholder="SENHA">
+            <div class="flex gap-4">
+                <button id="cancel-admin" class="flex-1 py-3 text-[10px] text-zinc-600 uppercase tracking-widest">Sair</button>
+                <button id="confirm-admin" class="flex-1 py-3 bg-white text-black font-bold rounded-xl uppercase text-[10px] tracking-widest">Entrar</button>
             </div>
         </div>
     </div>
 
     <!-- PAINEL DE DADOS ADMIN -->
-    <div id="admin-dashboard" class="hidden w-full max-w-5xl glass-card rounded-3xl p-8 md:p-12 shadow-2xl mb-12">
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 border-b border-zinc-900 pb-8 gap-6">
-            <div>
-                <h2 class="text-3xl font-bold tracking-tight">Arquitetura Leadrix</h2>
-                <p class="text-[10px] text-zinc-500 uppercase tracking-[0.4em] mt-2">Base de Respostas Firestore</p>
+    <div id="admin-panel" class="hidden fixed inset-0 z-[150] bg-black custom-scroll overflow-y-auto p-8 md:p-16">
+        <div class="w-full max-w-5xl mx-auto">
+            <div class="flex justify-between items-center mb-16 border-b border-zinc-900 pb-10">
+                <div>
+                    <h2 class="text-4xl font-bold tracking-tighter">Insights de Arquitetura</h2>
+                    <p class="text-[10px] text-zinc-600 uppercase tracking-[0.4em] mt-2">Dados Consolidados Firestore</p>
+                </div>
+                <button id="close-admin" class="text-[10px] text-zinc-400 border border-zinc-900 px-8 py-3 rounded-full uppercase tracking-widest hover:bg-white hover:text-black transition-all">
+                    Fechar Painel
+                </button>
             </div>
-            <button id="exit-dashboard" type="button" class="text-[10px] text-zinc-400 hover:text-white border border-zinc-900 px-8 py-3 rounded-full uppercase tracking-widest bg-black/40">
-                Fechar Dashboard
-            </button>
-        </div>
-        
-        <div id="responses-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6 max-h-[65vh] overflow-y-auto custom-scrollbar pr-4">
-            <div class="col-span-2 py-20 text-center">
-                <p class="text-zinc-600 italic animate-pulse">A carregar dados do servidor Leadrix...</p>
+            
+            <div id="responses-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="col-span-full py-20 text-center text-zinc-700 italic animate-pulse">A procurar respostas...</div>
             </div>
         </div>
     </div>
 
-    <!-- TELA DE SUCESSO -->
-    <div id="success-screen" class="hidden w-full max-w-2xl glass-card rounded-3xl p-16 text-center shadow-2xl">
-        <div class="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-8 shadow-[0_0_50px_rgba(255,255,255,0.15)]">
-            <svg class="w-12 h-12 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
+    <!-- SUCESSO -->
+    <div id="success-screen" class="hidden w-full max-w-2xl text-center py-20 bg-[#050505] border border-zinc-900 rounded-3xl p-12">
+        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-8">
+            <svg class="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
         </div>
-        <h2 class="text-4xl font-black mb-4">Dados Enviados!</h2>
-        <p class="text-zinc-500 leading-relaxed max-w-sm mx-auto font-light">As definições técnicas foram gravadas com sucesso. A equipa de engenharia analisará os impactos em tokens e arquitetura.</p>
-        <button onclick="location.reload()" class="mt-12 text-[10px] text-zinc-700 hover:text-white uppercase tracking-[0.5em] transition-all">Novo Levantamento</button>
+        <h2 class="text-3xl font-bold mb-4">Enviado com Sucesso!</h2>
+        <p class="text-zinc-500 font-light max-w-xs mx-auto">Os dados técnicos foram registados. A equipa Leadrix iniciará o planeamento.</p>
+        <button onclick="location.reload()" class="mt-10 text-[9px] text-zinc-700 uppercase tracking-[0.4em]">Novo Levantamento</button>
     </div>
 
-    <footer id="main-footer" class="mt-auto text-[9px] text-zinc-800 uppercase tracking-[0.5em] pb-8">
-        Leadrix &copy; 2024
-    </footer>
-
-    <!-- Firebase SDK -->
+    <!-- Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-        // Configuração Firebase
+        // Config
         const firebaseConfig = JSON.parse(__firebase_config);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'leadrix-architecture-survey-final';
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'leadrix-survey-v3';
         
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -307,52 +271,35 @@
 
         let user = null;
 
-        // Gestão de Autenticação (REGRA 3)
+        // Auth
         const initAuth = async () => {
-            try {
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
-            } catch (error) {
-                console.error("Erro na autenticação Firebase:", error);
+            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                await signInWithCustomToken(auth, __initial_auth_token);
+            } else {
+                await signInAnonymously(auth);
             }
         };
-
-        onAuthStateChanged(auth, (u) => { user = u; });
+        onAuthStateChanged(auth, (u) => user = u);
         initAuth();
 
-        // UI Selectors
-        const form = document.getElementById('tech-form');
+        // UI Helpers
+        const form = document.getElementById('quest-form');
         const steps = document.querySelectorAll('.step-content');
         const nextBtn = document.getElementById('nextBtn');
         const prevBtn = document.getElementById('prevBtn');
         const submitBtn = document.getElementById('submitBtn');
         const progressBar = document.getElementById('progress-bar');
-        const stepIndicator = document.getElementById('step-indicator');
-        const percentageIndicator = document.getElementById('percentage-indicator');
-        
-        const adminBtn = document.getElementById('toggleAdmin');
-        const loginModal = document.getElementById('admin-login-modal');
-        const passField = document.getElementById('admin-pass-field');
-        const authBtn = document.getElementById('auth-admin-btn');
-        const cancelBtn = document.getElementById('cancel-admin-btn');
-        const adminDashboard = document.getElementById('admin-dashboard');
-        const formContainer = document.getElementById('form-container');
-        const mainHeader = document.getElementById('main-header');
-        const progressContainer = document.getElementById('progress-container');
 
         let currentStep = 1;
         const totalSteps = steps.length;
 
-        function updateUI() {
+        function refreshStep() {
             steps.forEach((s, i) => s.classList.toggle('active', (i + 1) === currentStep));
             
-            const progress = (currentStep / totalSteps) * 100;
-            progressBar.style.width = `${progress}%`;
-            stepIndicator.textContent = `Etapa ${currentStep} de ${totalSteps}`;
-            percentageIndicator.textContent = `${Math.round(progress)}%`;
+            const p = (currentStep / totalSteps) * 100;
+            progressBar.style.width = `${p}%`;
+            document.getElementById('step-txt').textContent = `Passo ${currentStep}`;
+            document.getElementById('percent-txt').textContent = `${Math.round(p)}%`;
 
             prevBtn.classList.toggle('invisible', currentStep === 1);
             if (currentStep === totalSteps) {
@@ -362,122 +309,105 @@
                 nextBtn.classList.remove('hidden');
                 submitBtn.classList.add('hidden');
             }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        nextBtn.addEventListener('click', () => { if (currentStep < totalSteps) { currentStep++; updateUI(); } });
-        prevBtn.addEventListener('click', () => { if (currentStep > 1) { currentStep--; updateUI(); } });
+        nextBtn.addEventListener('click', () => { if(currentStep < totalSteps) { currentStep++; refreshStep(); }});
+        prevBtn.addEventListener('click', () => { if(currentStep > 1) { currentStep--; refreshStep(); }});
 
-        // Lógica Admin Robusta (Fix para "Piscar")
-        adminBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
+        // ADMIN FLOW (REVISADO)
+        const adminBtn = document.getElementById('adminBtn');
+        const loginModal = document.getElementById('admin-login');
+        const confirmAdmin = document.getElementById('confirm-admin');
+        const cancelAdmin = document.getElementById('cancel-admin');
+        const passInput = document.getElementById('admin-pass');
+        const adminPanel = document.getElementById('admin-panel');
+
+        adminBtn.onclick = (e) => {
+            e.preventDefault();
             loginModal.classList.remove('hidden');
-            setTimeout(() => passField.focus(), 50);
-        });
+        };
 
-        cancelBtn.addEventListener('click', () => {
+        cancelAdmin.onclick = () => {
             loginModal.classList.add('hidden');
-            passField.value = '';
-        });
+            passInput.value = '';
+        };
 
-        authBtn.addEventListener('click', () => {
-            if (passField.value === "leadrix123") {
-                // Alternar Visibilidade
+        confirmAdmin.onclick = () => {
+            if (passInput.value === "leadrix123") {
                 loginModal.classList.add('hidden');
-                formContainer.classList.add('hidden');
-                mainHeader.classList.add('hidden');
-                progressContainer.classList.add('hidden');
-                adminDashboard.classList.remove('hidden');
-                loadResponses();
+                adminPanel.classList.remove('hidden');
+                loadData();
             } else {
-                passField.classList.add('border-red-500');
-                setTimeout(() => passField.classList.remove('border-red-500'), 500);
-                passField.value = '';
+                passInput.classList.add('border-red-600');
+                setTimeout(() => passInput.classList.remove('border-red-600'), 500);
             }
-        });
+        };
 
-        document.getElementById('exit-dashboard').addEventListener('click', () => {
-            adminDashboard.classList.add('hidden');
-            formContainer.classList.remove('hidden');
-            mainHeader.classList.remove('hidden');
-            progressContainer.classList.remove('hidden');
-            passField.value = '';
-        });
+        document.getElementById('close-admin').onclick = () => {
+            adminPanel.classList.add('hidden');
+            passInput.value = '';
+        };
 
-        // Envio de Dados
-        submitBtn.addEventListener('click', async () => {
-            if (!user) return alert("A aguardar ligação estável com o servidor...");
-            
+        // SUBMIT
+        submitBtn.onclick = async () => {
+            if (!user) return alert("Erro de ligação.");
             submitBtn.disabled = true;
-            submitBtn.textContent = "A GRAVAR...";
+            submitBtn.textContent = "...";
 
-            const formData = new FormData(form);
+            const fd = new FormData(form);
             const data = {
-                ...Object.fromEntries(formData.entries()),
-                rp_features: Array.from(formData.getAll('rp_features')),
+                ...Object.fromEntries(fd.entries()),
+                rp_features: Array.from(fd.getAll('rp_features')),
                 timestamp: new Date().toISOString(),
                 uid: user.uid
             };
 
             try {
-                // Caminho REGRA 1
-                const responsesRef = collection(db, 'artifacts', appId, 'public', 'data', 'responses');
-                await addDoc(responsesRef, data);
-                
-                formContainer.classList.add('hidden');
-                mainHeader.classList.add('hidden');
-                progressContainer.classList.add('hidden');
+                const col = collection(db, 'artifacts', appId, 'public', 'data', 'responses');
+                await addDoc(col, data);
+                document.getElementById('main-content').classList.add('hidden');
+                document.getElementById('progress-area').classList.add('hidden');
+                document.getElementById('header-area').classList.add('hidden');
                 document.getElementById('success-screen').classList.remove('hidden');
             } catch (err) {
-                console.error("Erro ao gravar:", err);
-                alert("Erro ao gravar dados no Firestore.");
+                console.error(err);
+                alert("Erro ao gravar.");
                 submitBtn.disabled = false;
-                submitBtn.textContent = "ENVIAR DADOS";
             }
-        });
+        };
 
-        function loadResponses() {
-            if (!user) return;
-            // Caminho REGRA 1
-            const responsesRef = collection(db, 'artifacts', appId, 'public', 'data', 'responses');
-            
-            onSnapshot(responsesRef, (snapshot) => {
-                const grid = document.getElementById('responses-grid');
-                grid.innerHTML = '';
+        function loadData() {
+            const col = collection(db, 'artifacts', appId, 'public', 'data', 'responses');
+            onSnapshot(col, (snap) => {
+                const list = document.getElementById('responses-list');
+                list.innerHTML = '';
+                if (snap.empty) { list.innerHTML = '<p class="col-span-full text-zinc-800 text-center py-20">Nenhum dado encontrado.</p>'; return; }
                 
-                if (snapshot.empty) {
-                    grid.innerHTML = '<div class="col-span-2 text-center text-zinc-700 italic py-10">Nenhuma resposta encontrada na base de dados.</div>';
-                    return;
-                }
-
-                snapshot.forEach(doc => {
+                snap.forEach(doc => {
                     const r = doc.data();
-                    const card = document.createElement('div');
-                    card.className = "p-6 border border-zinc-800 rounded-2xl bg-zinc-900/30 text-[11px] hover:border-zinc-700 transition-all shadow-sm";
-                    card.innerHTML = `
-                        <div class="flex justify-between items-start mb-4 border-b border-zinc-800 pb-3">
+                    const div = document.createElement('div');
+                    div.className = "p-8 border border-zinc-900 rounded-3xl bg-[#050505] text-[11px] hover:border-zinc-700 transition-all";
+                    div.innerHTML = `
+                        <div class="flex justify-between items-start mb-6 border-b border-zinc-900 pb-4">
                             <div>
-                                <h3 class="text-white font-bold text-sm uppercase tracking-tight">${r.identificacao || 'Sem Identificação'}</h3>
+                                <h3 class="text-white font-bold text-sm uppercase tracking-tighter">${r.empresa || 'Empresa Indefinida'}</h3>
                                 <p class="text-zinc-600 text-[8px] mt-1 italic">${new Date(r.timestamp).toLocaleString('pt-PT')}</p>
                             </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-y-2 gap-x-4 text-zinc-400">
+                        <div class="grid grid-cols-2 gap-4 text-zinc-400">
                             <p><b>Método:</b> ${r.metodo_tipo || '-'}</p>
-                            <p><b>Base:</b> ${r.base_tipo || '-'}</p>
-                            <p><b>Uso Copiloto:</b> ${r.cop_uso || '-'}</p>
-                            <p><b>Clientes:</b> ${r.vol_cli || '0'}</p>
+                            <p><b>Alimentação:</b> ${r.base_origem || '-'}</p>
+                            <p><b>Copiloto:</b> ${r.cop_modo || '-'}</p>
+                            <p><b>Volume Cli:</b> ${r.vol_cli || '0'}</p>
                         </div>
-                        ${r.notas ? `<div class="mt-4 p-3 bg-black/50 rounded-xl text-zinc-500 border border-zinc-900 italic text-[10px]">"${r.notas}"</div>` : ''}
+                        ${r.notas ? `<div class="mt-6 p-4 bg-black rounded-2xl text-zinc-500 border border-zinc-900 italic">"${r.notas}"</div>` : ''}
                     `;
-                    grid.appendChild(card);
+                    list.appendChild(div);
                 });
-            }, (error) => {
-                console.error("Erro no Listener Firestore:", error);
-                document.getElementById('responses-grid').innerHTML = `<div class="col-span-2 text-red-500 text-center py-10 text-xs">Erro de acesso aos dados: ${error.message}</div>`;
             });
         }
 
-        updateUI();
+        refreshStep();
     </script>
 </body>
 </html>
