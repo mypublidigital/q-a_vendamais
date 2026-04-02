@@ -63,17 +63,17 @@
 </head>
 <body class="min-h-screen flex flex-col items-center py-12 px-6 overflow-x-hidden custom-scroll">
 
-    <!-- Botão Admin (Fixo e Isolado) -->
+    <!-- Botão Admin -->
     <div class="fixed top-6 right-6 z-[100]">
         <button id="adminBtn" type="button" class="text-[10px] text-zinc-700 hover:text-zinc-400 uppercase tracking-[0.3em] transition-all px-4 py-2 border border-zinc-900 rounded-full bg-black">
             Acesso Interno
         </button>
     </div>
 
-    <!-- Header (Logo Estável) -->
+    <!-- Header -->
     <header id="header-area" class="w-full max-w-2xl text-center mb-16">
         <div class="h-16 flex items-center justify-center mb-6 overflow-hidden">
-            <img src="LOGO_LEADRIX_Negativado_COR_RGB.png" alt="Leadrix" class="h-full w-auto object-contain" onerror="this.style.display='none'">
+            <img src="LOGO_LEADRIX_Negativado_COR_RGB.png" alt="Leadrix" class="h-full w-auto object-contain block" style="min-height: 64px;">
         </div>
         <h1 class="text-xs font-bold tracking-[0.5em] text-zinc-500 uppercase">Questionário Técnico</h1>
         <p class="text-[10px] text-zinc-700 mt-2 uppercase tracking-widest">Plataforma Role Play + Copiloto</p>
@@ -91,10 +91,9 @@
     </div>
 
     <!-- Container do Formulário -->
-    <main id="main-content" class="w-full max-w-2xl bg-[#050505] border border-zinc-900 rounded-3xl p-8 md:p-12 shadow-2xl transition-all">
+    <main id="main-content" class="w-full max-w-2xl bg-[#050505] border border-zinc-900 rounded-3xl p-8 md:p-12 shadow-2xl">
         <form id="quest-form">
             
-            <!-- Etapa 1: Identificação -->
             <div class="step-content active" data-step="1">
                 <h2 class="text-2xl font-semibold mb-2">Identificação</h2>
                 <p class="text-sm text-zinc-500 mb-10">Para qual cliente ou projeto estamos a configurar?</p>
@@ -103,204 +102,107 @@
                 </div>
             </div>
 
-            <!-- Etapa 2: Método -->
             <div class="step-content" data-step="2">
                 <h2 class="text-2xl font-semibold mb-2">1. Método de Vendas</h2>
-                <p class="text-sm text-zinc-500 mb-8">Definição do fluxo de trabalho.</p>
                 <div class="grid grid-cols-1 gap-3">
                     <label class="cursor-pointer">
                         <input type="radio" name="metodo_tipo" value="Customizado" class="hidden">
-                        <div class="option-card p-6 rounded-2xl text-sm">Totalmente customizado por cliente</div>
+                        <div class="option-card p-6 rounded-2xl text-sm">Totalmente customizado</div>
                     </label>
                     <label class="cursor-pointer">
                         <input type="radio" name="metodo_tipo" value="Template" class="hidden">
-                        <div class="option-card p-6 rounded-2xl text-sm">Baseado em template com ajustes</div>
+                        <div class="option-card p-6 rounded-2xl text-sm">Baseado em template</div>
                     </label>
                     <div class="mt-6">
-                        <p class="text-[10px] text-zinc-600 uppercase mb-3">Etapas de venda em média</p>
-                        <input type="number" name="etapas_count" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-4 focus:border-white outline-none">
+                        <p class="text-[10px] text-zinc-600 uppercase mb-3">Etapas de venda</p>
+                        <input type="number" name="etapas_count" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-4 outline-none">
                     </div>
                 </div>
             </div>
 
-            <!-- Etapa 3: Base -->
             <div class="step-content" data-step="3">
                 <h2 class="text-2xl font-semibold mb-2">2. Base de Conhecimento</h2>
-                <p class="text-sm text-zinc-500 mb-8"> Driver de custo de processamento (LLM).</p>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                    <label class="cursor-pointer">
-                        <input type="radio" name="base_origem" value="Texto" class="hidden">
-                        <div class="option-card p-5 rounded-2xl text-xs text-center h-full flex items-center justify-center">Textos estruturados</div>
-                    </label>
-                    <label class="cursor-pointer">
-                        <input type="radio" name="base_origem" value="Docs" class="hidden">
-                        <div class="option-card p-5 rounded-2xl text-xs text-center h-full flex items-center justify-center">Documentos (PDF, PPT)</div>
-                    </label>
-                    <label class="cursor-pointer">
-                        <input type="radio" name="base_origem" value="Ambos" class="hidden">
-                        <div class="option-card p-5 rounded-2xl text-xs text-center h-full flex items-center justify-center">Ambos</div>
-                    </label>
-                </div>
-                <div class="mt-8 grid grid-cols-3 gap-3">
-                    <label class="cursor-pointer"><input type="radio" name="docs_tam" value="Curto" class="hidden"><div class="option-card p-4 rounded-xl text-[10px] text-center uppercase tracking-tighter">Curtos</div></label>
-                    <label class="cursor-pointer"><input type="radio" name="docs_tam" value="Médio" class="hidden"><div class="option-card p-4 rounded-xl text-[10px] text-center uppercase tracking-tighter">Médios</div></label>
-                    <label class="cursor-pointer"><input type="radio" name="docs_tam" value="Longo" class="hidden"><div class="option-card p-4 rounded-xl text-[10px] text-center uppercase tracking-tighter">Longos</div></label>
+                    <label class="cursor-pointer"><input type="radio" name="base_origem" value="Texto" class="hidden"><div class="option-card p-5 rounded-2xl text-xs text-center flex items-center justify-center h-full">Textos</div></label>
+                    <label class="cursor-pointer"><input type="radio" name="base_origem" value="Docs" class="hidden"><div class="option-card p-5 rounded-2xl text-xs text-center flex items-center justify-center h-full">Documentos</div></label>
+                    <label class="cursor-pointer"><input type="radio" name="base_origem" value="Ambos" class="hidden"><div class="option-card p-5 rounded-2xl text-xs text-center flex items-center justify-center h-full">Ambos</div></label>
                 </div>
             </div>
 
-            <!-- Etapa 4: Role Play -->
             <div class="step-content" data-step="4">
                 <h2 class="text-2xl font-semibold mb-6">3. Role Play</h2>
                 <div class="space-y-3">
-                    <label class="block cursor-pointer">
-                        <input type="checkbox" name="rp_voz" value="Voz" class="hidden">
-                        <div class="option-card p-5 rounded-2xl text-sm">Treino com Voz/Áudio</div>
-                    </label>
-                    <label class="block cursor-pointer">
-                        <input type="checkbox" name="rp_realtime" value="Realtime" class="hidden">
-                        <div class="option-card p-5 rounded-2xl text-sm">Avaliação em Tempo Real</div>
-                    </label>
+                    <label class="block cursor-pointer"><input type="checkbox" name="rp_voz" value="Voz" class="hidden"><div class="option-card p-5 rounded-2xl text-sm">Voz/Áudio</div></label>
+                    <label class="block cursor-pointer"><input type="checkbox" name="rp_realtime" value="Realtime" class="hidden"><div class="option-card p-5 rounded-2xl text-sm">Tempo Real</div></label>
                 </div>
             </div>
 
-            <!-- Etapa 5: Copiloto -->
             <div class="step-content" data-step="5">
                 <h2 class="text-2xl font-semibold mb-6">4. Copiloto AI</h2>
                 <div class="space-y-3">
-                    <label class="block cursor-pointer">
-                        <input type="radio" name="cop_modo" value="Demanda" class="hidden">
-                        <div class="option-card p-5 rounded-2xl text-sm">Apenas Sob Demanda (Chat)</div>
-                    </label>
-                    <label class="block cursor-pointer">
-                        <input type="radio" name="cop_modo" value="Proativo" class="hidden">
-                        <div class="option-card p-5 rounded-2xl text-sm">Sugestões Proativas (Push)</div>
-                    </label>
-                    <div class="mt-4 p-5 border border-zinc-900 rounded-2xl flex items-center justify-between">
-                        <span class="text-sm text-zinc-500">Integrar com CRM?</span>
-                        <input type="checkbox" name="cop_crm" class="w-6 h-6 accent-white">
-                    </div>
+                    <label class="block cursor-pointer"><input type="radio" name="cop_modo" value="Demanda" class="hidden"><div class="option-card p-5 rounded-2xl text-sm">Sob Demanda</div></label>
+                    <label class="block cursor-pointer"><input type="radio" name="cop_modo" value="Proativo" class="hidden"><div class="option-card p-5 rounded-2xl text-sm">Proativo</div></label>
                 </div>
             </div>
 
-            <!-- Etapa 6: Volume -->
             <div class="step-content" data-step="6">
-                <h2 class="text-2xl font-semibold mb-10">5. Volume Operacional</h2>
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <p class="text-[10px] text-zinc-600 uppercase mb-2">Clientes Ativos</p>
-                        <input type="number" name="vol_cli" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-4 outline-none">
-                    </div>
-                    <div>
-                        <p class="text-[10px] text-zinc-600 uppercase mb-2">Users / Cli</p>
-                        <input type="number" name="vol_usr" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-4 outline-none">
-                    </div>
-                </div>
+                <h2 class="text-2xl font-semibold mb-6">5. Notas Finais</h2>
+                <textarea name="notas" rows="6" placeholder="Algum detalhe adicional?" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-5 outline-none text-white text-sm resize-none"></textarea>
             </div>
 
-            <!-- Etapa 7: Final -->
-            <div class="step-content" data-step="7">
-                <h2 class="text-2xl font-semibold mb-6">Extras e Notas</h2>
-                <textarea name="notas" rows="6" placeholder="Algum detalhe adicional sobre a arquitetura?" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-5 focus:border-white outline-none text-white text-sm resize-none custom-scroll"></textarea>
-            </div>
-
-            <!-- Navegação -->
             <div class="flex justify-between mt-12 gap-4">
                 <button type="button" id="prevBtn" class="flex-1 py-5 rounded-2xl border border-zinc-900 text-zinc-600 hover:text-white transition-all invisible">Anterior</button>
                 <button type="button" id="nextBtn" class="flex-[2] py-5 rounded-2xl bg-white text-black font-bold hover:bg-zinc-200 transition-all">Seguinte</button>
                 <button id="submitBtn" type="button" class="flex-[2] py-5 rounded-2xl bg-white text-black font-black hover:bg-zinc-200 transition-all hidden uppercase tracking-widest">Enviar Dados</button>
             </div>
-
         </form>
     </main>
 
-    <!-- MODAL ADMIN LOGIN (Isolado e com Z-Index Máximo) -->
+    <!-- Modais -->
     <div id="admin-login" class="hidden fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/95 backdrop-blur-xl">
-        <div class="w-full max-w-xs bg-[#0a0a0a] border border-zinc-900 rounded-3xl p-10 shadow-2xl">
-            <h2 class="text-xl font-bold mb-1 text-center">Autenticação</h2>
+        <div class="w-full max-w-xs bg-[#0a0a0a] border border-zinc-900 rounded-3xl p-10">
+            <h2 class="text-xl font-bold mb-1 text-center text-white">Autenticação</h2>
             <p class="text-[9px] text-zinc-600 text-center uppercase tracking-[0.3em] mb-10">Interno Leadrix</p>
             <input type="password" id="admin-pass" class="w-full bg-zinc-900 border border-zinc-800 rounded-2xl p-5 focus:border-white outline-none text-white text-center tracking-widest mb-6" placeholder="SENHA">
             <div class="flex gap-4">
                 <button id="cancel-admin" class="flex-1 py-3 text-[10px] text-zinc-600 uppercase tracking-widest">Sair</button>
-                <button id="confirm-admin" class="flex-1 py-3 bg-white text-black font-bold rounded-xl uppercase text-[10px] tracking-widest">Entrar</button>
+                <button id="confirm-admin" class="flex-1 py-3 bg-white text-black font-bold rounded-xl uppercase text-[10px]">Entrar</button>
             </div>
         </div>
     </div>
 
-    <!-- PAINEL DE DADOS ADMIN -->
-    <div id="admin-panel" class="hidden fixed inset-0 z-[150] bg-black custom-scroll overflow-y-auto p-8 md:p-16">
+    <div id="admin-panel" class="hidden fixed inset-0 z-[150] bg-black overflow-y-auto p-8 md:p-16 custom-scroll">
         <div class="w-full max-w-5xl mx-auto">
-            <div class="flex justify-between items-center mb-16 border-b border-zinc-900 pb-10">
-                <div>
-                    <h2 class="text-4xl font-bold tracking-tighter">Insights de Arquitetura</h2>
-                    <p class="text-[10px] text-zinc-600 uppercase tracking-[0.4em] mt-2">Dados Consolidados Firestore</p>
-                </div>
-                <button id="close-admin" class="text-[10px] text-zinc-400 border border-zinc-900 px-8 py-3 rounded-full uppercase tracking-widest hover:bg-white hover:text-black transition-all">
-                    Fechar Painel
-                </button>
+            <div class="flex justify-between items-center mb-10 border-b border-zinc-900 pb-10">
+                <h2 class="text-4xl font-bold text-white tracking-tighter">Insights</h2>
+                <button id="close-admin" class="text-[10px] text-zinc-400 border border-zinc-900 px-8 py-3 rounded-full hover:bg-white hover:text-black">Fechar</button>
             </div>
-            
-            <div id="responses-list" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="col-span-full py-20 text-center text-zinc-700 italic animate-pulse">A procurar respostas...</div>
-            </div>
+            <div id="responses-list" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
         </div>
     </div>
 
-    <!-- SUCESSO -->
     <div id="success-screen" class="hidden w-full max-w-2xl text-center py-20 bg-[#050505] border border-zinc-900 rounded-3xl p-12">
-        <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-8">
-            <svg class="w-10 h-10 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>
-        </div>
-        <h2 class="text-3xl font-bold mb-4">Enviado com Sucesso!</h2>
-        <p class="text-zinc-500 font-light max-w-xs mx-auto">Os dados técnicos foram registados. A equipa Leadrix iniciará o planeamento.</p>
+        <h2 class="text-3xl font-bold mb-4 text-white">Enviado com Sucesso!</h2>
         <button onclick="location.reload()" class="mt-10 text-[9px] text-zinc-700 uppercase tracking-[0.4em]">Novo Levantamento</button>
     </div>
 
-    <!-- Firebase -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-
-        // Config
-        const firebaseConfig = JSON.parse(__firebase_config);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'leadrix-survey-v3';
-        
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
-        let user = null;
-
-        // Auth
-        const initAuth = async () => {
-            if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                await signInWithCustomToken(auth, __initial_auth_token);
-            } else {
-                await signInAnonymously(auth);
-            }
-        };
-        onAuthStateChanged(auth, (u) => user = u);
-        initAuth();
-
-        // UI Helpers
-        const form = document.getElementById('quest-form');
+    <!-- Scripts -->
+    <script>
+        /** 1. Lógica de Navegação (Independente do Firebase) **/
         const steps = document.querySelectorAll('.step-content');
         const nextBtn = document.getElementById('nextBtn');
         const prevBtn = document.getElementById('prevBtn');
         const submitBtn = document.getElementById('submitBtn');
         const progressBar = document.getElementById('progress-bar');
-
         let currentStep = 1;
         const totalSteps = steps.length;
 
         function refreshStep() {
             steps.forEach((s, i) => s.classList.toggle('active', (i + 1) === currentStep));
-            
             const p = (currentStep / totalSteps) * 100;
-            progressBar.style.width = `${p}%`;
-            document.getElementById('step-txt').textContent = `Passo ${currentStep}`;
-            document.getElementById('percent-txt').textContent = `${Math.round(p)}%`;
-
+            progressBar.style.width = p + '%';
+            document.getElementById('step-txt').textContent = 'Passo ' + currentStep;
+            document.getElementById('percent-txt').textContent = Math.round(p) + '%';
             prevBtn.classList.toggle('invisible', currentStep === 1);
             if (currentStep === totalSteps) {
                 nextBtn.classList.add('hidden');
@@ -311,68 +213,96 @@
             }
         }
 
-        nextBtn.addEventListener('click', () => { if(currentStep < totalSteps) { currentStep++; refreshStep(); }});
-        prevBtn.addEventListener('click', () => { if(currentStep > 1) { currentStep--; refreshStep(); }});
+        nextBtn.onclick = () => { if(currentStep < totalSteps) { currentStep++; refreshStep(); } };
+        prevBtn.onclick = () => { if(currentStep > 1) { currentStep--; refreshStep(); } };
+        
+        /** 2. Lógica Admin (UI) **/
+        document.getElementById('adminBtn').onclick = () => document.getElementById('admin-login').classList.remove('hidden');
+        document.getElementById('cancel-admin').onclick = () => document.getElementById('admin-login').classList.add('hidden');
+        document.getElementById('close-admin').onclick = () => document.getElementById('admin-panel').classList.add('hidden');
+        
+        refreshStep();
+    </script>
 
-        // ADMIN FLOW (REVISADO)
-        const adminBtn = document.getElementById('adminBtn');
-        const loginModal = document.getElementById('admin-login');
-        const confirmAdmin = document.getElementById('confirm-admin');
-        const cancelAdmin = document.getElementById('cancel-admin');
-        const passInput = document.getElementById('admin-pass');
-        const adminPanel = document.getElementById('admin-panel');
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously, onAuthStateChanged, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
-        adminBtn.onclick = (e) => {
-            e.preventDefault();
-            loginModal.classList.remove('hidden');
-        };
+        /** 3. Configuração do Banco de Dados **/
+        let db, auth, user, appId;
 
-        cancelAdmin.onclick = () => {
-            loginModal.classList.add('hidden');
-            passInput.value = '';
-        };
+        try {
+            // Se estiver no Vercel/GitHub, essas variáveis são 'undefined'
+            // Insira sua config manualmente aqui para que funcione fora deste ambiente:
+            const myManualConfig = {
+                apiKey: "", 
+                authDomain: "",
+                projectId: "",
+                storageBucket: "",
+                messagingSenderId: "",
+                appId: ""
+            };
 
-        confirmAdmin.onclick = () => {
-            if (passInput.value === "leadrix123") {
-                loginModal.classList.add('hidden');
-                adminPanel.classList.remove('hidden');
-                loadData();
+            const config = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : myManualConfig;
+            appId = typeof __app_id !== 'undefined' ? __app_id : 'leadrix-v3-external';
+
+            if (config.apiKey) {
+                const app = initializeApp(config);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                const initAuth = async () => {
+                    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                        await signInWithCustomToken(auth, __initial_auth_token);
+                    } else {
+                        await signInAnonymously(auth);
+                    }
+                };
+                onAuthStateChanged(auth, u => user = u);
+                initAuth();
             } else {
-                passInput.classList.add('border-red-600');
-                setTimeout(() => passInput.classList.remove('border-red-600'), 500);
+                console.warn("Firebase não configurado. Os dados não serão salvos na nuvem.");
+            }
+        } catch (e) {
+            console.error("Erro ao inicializar Firebase:", e);
+        }
+
+        /** 4. Lógica de Admin e Submissão **/
+        document.getElementById('confirm-admin').onclick = () => {
+            const pass = document.getElementById('admin-pass').value;
+            if (pass === "leadrix123") {
+                document.getElementById('admin-login').classList.add('hidden');
+                document.getElementById('admin-panel').classList.remove('hidden');
+                if (db) loadData();
+            } else {
+                alert("Senha incorreta");
             }
         };
 
-        document.getElementById('close-admin').onclick = () => {
-            adminPanel.classList.add('hidden');
-            passInput.value = '';
-        };
+        document.getElementById('submitBtn').onclick = async () => {
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.textContent = "...";
 
-        // SUBMIT
-        submitBtn.onclick = async () => {
-            if (!user) return alert("Erro de ligação.");
-            submitBtn.disabled = true;
-            submitBtn.textContent = "...";
+            const fd = new FormData(document.getElementById('quest-form'));
+            const data = { ...Object.fromEntries(fd.entries()), timestamp: new Date().toISOString() };
 
-            const fd = new FormData(form);
-            const data = {
-                ...Object.fromEntries(fd.entries()),
-                rp_features: Array.from(fd.getAll('rp_features')),
-                timestamp: new Date().toISOString(),
-                uid: user.uid
-            };
-
-            try {
-                const col = collection(db, 'artifacts', appId, 'public', 'data', 'responses');
-                await addDoc(col, data);
+            if (db && user) {
+                try {
+                    const col = collection(db, 'artifacts', appId, 'public', 'data', 'responses');
+                    await addDoc(col, data);
+                    document.getElementById('main-content').classList.add('hidden');
+                    document.getElementById('success-screen').classList.remove('hidden');
+                } catch (err) {
+                    alert("Erro ao gravar no banco.");
+                    btn.disabled = false;
+                    btn.textContent = "Enviar Dados";
+                }
+            } else {
+                alert("Dados simulados: Enviado com sucesso (modo offline)");
                 document.getElementById('main-content').classList.add('hidden');
-                document.getElementById('progress-area').classList.add('hidden');
-                document.getElementById('header-area').classList.add('hidden');
                 document.getElementById('success-screen').classList.remove('hidden');
-            } catch (err) {
-                console.error(err);
-                alert("Erro ao gravar.");
-                submitBtn.disabled = false;
             }
         };
 
@@ -381,33 +311,15 @@
             onSnapshot(col, (snap) => {
                 const list = document.getElementById('responses-list');
                 list.innerHTML = '';
-                if (snap.empty) { list.innerHTML = '<p class="col-span-full text-zinc-800 text-center py-20">Nenhum dado encontrado.</p>'; return; }
-                
                 snap.forEach(doc => {
                     const r = doc.data();
                     const div = document.createElement('div');
-                    div.className = "p-8 border border-zinc-900 rounded-3xl bg-[#050505] text-[11px] hover:border-zinc-700 transition-all";
-                    div.innerHTML = `
-                        <div class="flex justify-between items-start mb-6 border-b border-zinc-900 pb-4">
-                            <div>
-                                <h3 class="text-white font-bold text-sm uppercase tracking-tighter">${r.empresa || 'Empresa Indefinida'}</h3>
-                                <p class="text-zinc-600 text-[8px] mt-1 italic">${new Date(r.timestamp).toLocaleString('pt-PT')}</p>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4 text-zinc-400">
-                            <p><b>Método:</b> ${r.metodo_tipo || '-'}</p>
-                            <p><b>Alimentação:</b> ${r.base_origem || '-'}</p>
-                            <p><b>Copiloto:</b> ${r.cop_modo || '-'}</p>
-                            <p><b>Volume Cli:</b> ${r.vol_cli || '0'}</p>
-                        </div>
-                        ${r.notas ? `<div class="mt-6 p-4 bg-black rounded-2xl text-zinc-500 border border-zinc-900 italic">"${r.notas}"</div>` : ''}
-                    `;
+                    div.className = "p-6 border border-zinc-900 rounded-3xl bg-[#050505] text-[11px] text-zinc-400";
+                    div.innerHTML = `<h3 class="text-white font-bold mb-2">${r.empresa || 'Empresa'}</h3><p>${r.metodo_tipo || '-'}</p>`;
                     list.appendChild(div);
                 });
             });
         }
-
-        refreshStep();
     </script>
 </body>
 </html>
